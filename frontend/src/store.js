@@ -13,10 +13,17 @@ const reducer = combineReducers({
   cartDetails: cartReducer,
 });
 
+// Get cartItems localStorage items on load
 const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
-const initialState = { cartItems: cartItemsFromStorage };
+
+// persist cart items by setting initial state to what is saved in localStorage
+const initialState = {
+  cartDetails: {
+    cartItems: cartItemsFromStorage,
+  },
+};
 const middleware = [thunk];
 const store = createStore(
   reducer,

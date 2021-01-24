@@ -33,6 +33,7 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(id));
   };
 
+  // if not logged in, redirect to login screen, otherwise redirect to shipping
   const checkoutHandler = () => {
     history.push('/login?redirect=shipping');
   };
@@ -61,9 +62,9 @@ const CartScreen = ({ match, location, history }) => {
                     <Form.Control
                       as='select'
                       value={item.qty}
-                      onChange={(e) =>
+                      onChange={(evt) =>
                         dispatch(
-                          addToCart(item.product, Number(e.target.value))
+                          addToCart(item.product, Number(evt.target.value))
                         )
                       }
                     >
