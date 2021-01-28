@@ -6,11 +6,13 @@ import {
   productDetailsReducer,
 } from './reducers/productReducers';
 import { cartReducer } from './reducers/cartReducers';
+import { userLoginReducer } from './reducers/userReducers';
 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
   cartDetails: cartReducer,
+  userLogin: userLoginReducer,
 });
 
 // Get cartItems localStorage items on load
@@ -18,11 +20,15 @@ const cartItemsFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
 
+// Get user info localStorage items on load
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null;
+
 // persist cart items by setting initial state to what is saved in localStorage
 const initialState = {
-  cartDetails: {
-    cartItems: cartItemsFromStorage,
-  },
+  cartDetails: { cartItems: cartItemsFromStorage },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 const middleware = [thunk];
 const store = createStore(
