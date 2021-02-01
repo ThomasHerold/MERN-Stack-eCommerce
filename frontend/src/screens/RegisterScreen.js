@@ -31,22 +31,29 @@ const RegisterScreen = ({ location, history }) => {
       ? setEmail(evt.target.value)
       : evt.target.name === 'name'
       ? setName(evt.target.value)
-      : setPassword(evt.target.value);
+      : evt.target.name === 'password'
+      ? setPassword(evt.target.value)
+      : setConfirmPassword(evt.target.value);
   };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch(register(name, email, password));
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match');
+    } else {
+      dispatch(register(name, email, password));
+    }
   };
 
   return (
     <FormContainer>
       <h1>Sign Up</h1>
+      {message && <Message variant='danger'>{message}</Message>}
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId='name'>
-          <Form.Label>Name Address</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             type='name'
             placeholder='Enter name'
@@ -75,16 +82,26 @@ const RegisterScreen = ({ location, history }) => {
             onChange={handleChange}
           ></Form.Control>
         </Form.Group>
+        <Form.Group controlId='confirmPassword'>
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type='password'
+            placeholder='Confirm password'
+            name='confirmPassword'
+            value={confirmPassword}
+            onChange={handleChange}
+          ></Form.Control>
+        </Form.Group>
         <Button type='submit' variant='primary'>
-          Sign In
+          Register
         </Button>
       </Form>
 
       <Row className='py-3'>
         <Col>
-          New Customer?{' '}
-          <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-            Register
+          Have an account?{' '}
+          <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+            Login
           </Link>
         </Col>
       </Row>
